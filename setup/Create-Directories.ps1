@@ -1,0 +1,1 @@
+mkdir \Projects, $home\Documents\Temp
