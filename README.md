@@ -1,11 +1,24 @@
+# TB Scripts
+
 Scripts I use on a daily basis.
 
-For the most part anyone should be able to use them.
-Paths are agnostic, using `$home`, `/`, and environment variables.
-Add paths and actions for `go` and `open` commands. See example files under `/paths`.
+For the most part anyone should be able to use them. Any paths used are agnostic. Environment varibles and configs are used where needed.
 
-You can clone this repository and configure it as an addtional environment path for all scripts. Making it easy to update when you pull changes. Each script is automatically assigned an alias that excludes the .ps1 extension. To setup this way:
+## Modules Used:
+* Terminal Icons - Icons in your terminal.
+* PSReadLine - Terminal command history.
+* gsudoModule - sudo for Windows.
+* PSScriptTools - Addtional PS scripts.
 
-Under `/setup` run `Create-Directories` -> `Set-Project-Env` -> `Set-Term-Settings` -> `Set-PS-Profile`.
+## Termnial Configuration:
+* Oh My Posh
+* Nord Terminal Theme (Optional)
+* Hack Nerd Font (Optional)
+* Quake Terminal (Optional)
 
-Otherwise, feel free to copy and modify scripts as needed.
+# Install
+Run `./setup/setup.ps1` follow prompts.
+Then `./setup/ps-profile.ps1` follow prompts.
+
+![Example1](example1.png "Example1")
+![Example1](example2.png "Example2")
