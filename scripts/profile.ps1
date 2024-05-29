@@ -3,9 +3,10 @@ oh-my-posh init pwsh --config "$env:TB_CONFIGS\nordcustom.omp.json" | Invoke-Exp
 Import-Module Terminal-Icons
 Import-Module PSReadLine
 Import-Module gsudoModule
+Import-Module PSScriptTools
 
 Set-PSReadLineOption -PredictionSource History
-set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -PredictionViewStyle ListView
 
 $scriptDirectory = $env:TB_SCRIPTS
 $scriptFiles = Get-ChildItem -Path $scriptDirectory -Filter *.ps1
