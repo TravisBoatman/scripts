@@ -1,4 +1,4 @@
-# TB Scripts
+# TB Scripts & Terminal
 
 Scripts I use on a daily basis.
 
