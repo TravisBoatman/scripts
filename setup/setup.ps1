@@ -3,7 +3,15 @@ function Set-EnvVariable([string]$name, [string]$default) {
     if (-not $path) {
         $path = $default
     }
-    [System.Environment]::SetEnvironmentVariable($name, $path, [System.EnvironmentVariableTarget]::Machine)
+
+    if ($name -eq "TB_SCRIPTS" -or $name -eq "TB_ADDITIONAL_SCRIPTS") {
+        $currentPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
+        $newPath = "$currentPath;$path"
+
+        [System.Environment]::SetEnvironmentVariable("PATH", $newPath, [System.EnvironmentVariableTarget]::Machine)
+    } else {
+        [System.Environment]::SetEnvironmentVariable($name, $path, [System.EnvironmentVariableTarget]::Machine)
+    }
 }
 
 Install-Module Terminal-Icons
@@ -16,8 +24,9 @@ $currentDirectory = Get-Location
 Set-EnvVariable -name "TB_SCRIPTS" -default "$currentDirectory\scripts"
 Set-EnvVariable -name "TB_CONFIGS" -default "$currentDirectory\configs"
 Set-EnvVariable -name "TB_PATHS" -default "$currentDirectory\paths"
+Set-EnvVariable -name "TB_ADDITIONAL_SCRIPTS" -default "$currentDirectory\additional-scripts"
 
-$setupTerminal = Read-Host "Do you want to use custom terminal settings (Quake Mode, Hack Font, Nord Theme? (yes/no)"
+$setupTerminal = Read-Host "Do you want to use custom terminal settings (Quake Mode, Hack Font, Termnial Appearance? (yes/no)"
 if ($setupTerminal -eq "yes") {
     
     # Set Windows Terminal settings

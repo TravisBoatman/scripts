@@ -30,10 +30,13 @@ Then `./setup/ps-profile.ps1` follow prompts.
 * sd - Shutdown.
 * short - Shortcut cheat sheet for Edge, Terminal, and Windows.
 * si - System Information.
-* toggle - Set a Relativity toggle.
 * up-npm - Sets a new NPM auth key.
-* ver - Sets a new Relativity App version.
 * vm - Starts/Stops Hyper-V VMs.
+
+# Additional Scripts
+
+Under `/additional-scripts` or wherever `TB_ADDITIONAL_SCRIPTS` is located you can add more scripts that won't be tracked by git.
+These will be automatically assigned an alias on their file name.
 
 # Examples
 
