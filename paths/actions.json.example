@@ -1,4 +1,5 @@
 {
     "mail":  "https://outlook.office.com/mail/inbox",
-    "teams": "https://teams.microsoft.com"
+    "teams": "https://teams.microsoft.com",
+    "rider": "$home\\AppData\\Local\\Programs\\Rider\\bin\\rider64.exe"
 }
