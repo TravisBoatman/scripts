@@ -2,7 +2,7 @@
 
 Scripts I use on a daily basis.
 
-For the most part anyone should be able to use them. Any paths used are agnostic. Environment varibles and configs are used where needed.
+For the most part anyone should be able to use them and use my custom theme and configs. Any paths used are agnostic. Environment varibles and configs are used where needed.
 
 ## Modules Used:
 * Terminal Icons - Icons in your terminal.
