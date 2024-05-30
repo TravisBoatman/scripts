@@ -49,7 +49,7 @@ if ($setupTerminal -eq "yes") {
     $url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"
     $zipFile = "C:\Temp\Hack.zip"
     $extractPath = "C:\Temp\Hack"
-
+    
     if (!(Test-Path "C:\Temp")) {
         New-Item -ItemType Directory -Force -Path "C:\Temp"
     }
@@ -59,15 +59,12 @@ if ($setupTerminal -eq "yes") {
 
     Get-ChildItem -Path "$extractPath\*.ttf" -Recurse | ForEach-Object {
         $font = $_.FullName
-        Add-Type -AssemblyName System.Drawing
-        $fontObj = New-Object System.Drawing.Text.PrivateFontCollection
-        $fontObj.AddFontFile($font)
-        $fontfamily = $fontObj.Families[0].Name
-        $filePath = $env:windir + "\Fonts\" + $fontfamily + ".ttf"
+        $filePath = $env:windir + "\Fonts\" + [System.IO.Path]::GetFileName($font)
         Copy-Item $font -Destination $filePath
         $fonts = New-Object -ComObject Shell.Application
-        $folder = $fonts.NameSpace(0x14)
-        $folder.ParseName($filePath).InvokeVerb("Install")
+        $folder = $fonts.NameSpace($env:windir + "\Fonts")
+        $fontFile = $folder.ParseName([System.IO.Path]::GetFileName($filePath))
+        $fontFile.InvokeVerb("Install")
     }
 
     Remove-Item -Path $extractPath -Recurse -Force
