@@ -43,7 +43,7 @@ These will also be automatically assigned an alias on their file name.
 
 # Python Scripts
 
-Additional scripts in python, not used on PATH. Used as utility scripts.
+Additional scripts in python located under `/py-scripts`, not used on PATH. Used as utility scripts.
 
 # Examples
 
