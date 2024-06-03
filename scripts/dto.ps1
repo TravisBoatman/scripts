@@ -8,7 +8,7 @@ param (
 
 $Outlook = New-Object -ComObject Outlook.Application
 
-function Create-Event {
+function New-Event {
     param (
         [DateTime]$Start,
         [DateTime]$End,
@@ -40,7 +40,7 @@ function Create-Event {
 }
 
 # Create the first event (Private, Out of Office)
-Create-Event -Start $From -End $To -Subject $EventName -BusyStatus 3 -Sensitivity 2 -AllDay:$AllDay # 3 = OutOfOffice, 2 = Private
+New-Event -Start $From -End $To -Subject $EventName -BusyStatus 3 -Sensitivity 2 -AllDay:$AllDay # 3 = OutOfOffice, 2 = Private
 
 # Create the second event (Public, Free, with attendee)
-Create-Event -Start $From -End $To -Subject $EventName -BusyStatus 0 -Sensitivity 0 -OptionalAttendee $TeamEmail -AllDay:$AllDay # 0 = Free, 0 = Normal (Public)
+New-Event -Start $From -End $To -Subject $EventName -BusyStatus 0 -Sensitivity 0 -OptionalAttendee $TeamEmail -AllDay:$AllDay # 0 = Free, 0 = Normal (Public)

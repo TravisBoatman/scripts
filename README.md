@@ -2,13 +2,14 @@
 
 Scripts I use on a daily basis.
 
+This repository is used as a centralized location for my terminal setup across PCs.
 For the most part anyone should be able to use them and use my custom theme and configs. Any paths used are agnostic. Environment varibles and configs are used where needed.
 
 ## Modules Used:
 * Terminal Icons - Icons in your terminal.
 * PSReadLine - Terminal command history.
 * gsudoModule - sudo for Windows.
-* PSScriptTools - Addtional PS scripts.
+* PSScriptTools - Addtional handy PS scripts.
 
 ## Termnial Configuration:
 * Oh My Posh
@@ -20,23 +21,29 @@ For the most part anyone should be able to use them and use my custom theme and 
 Run `./setup/setup.ps1` follow prompts.
 Then `./setup/ps-profile.ps1` follow prompts.
 
+# Uninstall
+Run `./setup/uninstall.ps1`.
+
 # Commands
 * dto - Creates a private and public DTO event for you and your team.
-* fd - Fast delete a directory.
+* delete-fast - Fast delete a directory.
 * go - Go to a directory.
-* helpsrc - Shows all commands.
 * open - Open/Execute an app, file, url, path.
 * reload - Reload terminal environment varibles.
-* sd - Shutdown.
-* short - Shortcut cheat sheet for Edge, Terminal, and Windows.
-* si - System Information.
-* up-npm - Sets a new NPM auth key.
-* vm - Starts/Stops Hyper-V VMs.
+* cpu - Shutdown or restart.
+* shortcut - Shortcut cheat sheet for Chrome, Firefox, Edge, Terminal, Windows, Visual Studio, VS Code, DataGrip, PyCharm, and Rider.
+* npm-creds - Sets a new NPM auth key.
+* scrub - Runs Windows disk cleanup.
+* vm - Start, Stop, Restart, Checkpoint Hyper-V VMs.
 
 # Additional Scripts
 
 Under `/additional-scripts` or wherever `TB_ADDITIONAL_SCRIPTS` is located you can add more scripts that won't be tracked by git.
-These will be automatically assigned an alias on their file name.
+These will also be automatically assigned an alias on their file name.
+
+# Python Scripts
+
+Additional scripts in python, not used on PATH. Used as utility scripts.
 
 # Examples
 

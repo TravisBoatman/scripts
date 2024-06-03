@@ -1,6 +1,6 @@
 param (
     [Parameter(Position=0, Mandatory=$true)]
-    [ValidateSet('Start', 'Stop')]
+    [ValidateSet('Start', 'Stop', 'Revert', 'Restart', 'Status')]
     [string]$Action,
 
     [Parameter(Position=1, Mandatory=$false)]
@@ -47,5 +47,22 @@ switch ($Action) {
         } else {
             Write-Output "VM '$vmName' is already stopped."
         }
+    }
+    'revert' {
+        $checkpoint = Get-VMSnapshot -VMName $vmName | Sort-Object -Property CreationTime -Descending | Select-Object -First 1
+        if ($checkpoint) {
+            Restore-VMSnapshot -VMName $vmName -Name $checkpoint.Name
+            Write-Output "VM '$vmName' is reverting to the last checkpoint."
+        } else {
+            Write-Error "No checkpoints found for VM '$vmName'."
+        }
+    }
+    'restart' {
+        Restart-VM -Name $vmName -Force
+        Write-Output "VM '$vmName' is restarting."
+    }
+    'status' {
+        $vmState = Get-VM -Name $vmName | Select-Object -ExpandProperty State
+        Write-Output "VM '$vmName' is currently $vmState."
     }
 }
