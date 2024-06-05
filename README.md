@@ -18,7 +18,7 @@ For the most part anyone should be able to use them and use my custom theme and 
 * Quake Terminal (Optional)
 
 # Install
-Run `./setup/setup.ps1` follow prompts.
+Run `./setup/install.ps1` follow prompts.
 Then `./setup/ps-profile.ps1` follow prompts.
 
 # Uninstall
