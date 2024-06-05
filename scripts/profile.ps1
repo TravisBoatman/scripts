@@ -1,9 +1,12 @@
 param (
-    [bool]$initPosh
+    [string]$theme
 )
 
-if ($initPosh -eq $true) {
-    oh-my-posh init pwsh --config "$env:TB_CONFIGS\nordcustom.omp.json" | Invoke-Expression
+if ($theme -ne $null) {
+    oh-my-posh init pwsh --config "$env:TB_CONFIGS\$theme" | Invoke-Expression
+}
+else {
+    oh-my-posh init pwsh | Invoke-Expression
 }
 
 Import-Module Terminal-Icons

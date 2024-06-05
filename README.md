@@ -13,7 +13,7 @@ For the most part anyone should be able to use them and use my custom theme and 
 
 ## Termnial Configuration:
 * Oh My Posh
-* Nord Terminal Theme (Optional)
+* Custom Terminal Themes (Optional)
 * Hack Nerd Font (Optional)
 * Quake Terminal (Optional)
 
