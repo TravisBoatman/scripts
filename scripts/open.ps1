@@ -1,6 +1,6 @@
 param (
     [Parameter(Mandatory=$false)]
-    [string]$name = 'help'
+    [string[]]$names = @('help')
 )
 
 function Show-Options {
@@ -20,15 +20,17 @@ try {
     exit
 }
 
-if ($name -eq "help") {
+if ($names -contains "help") {
     Show-Options
     exit
 }
 
-if ($actions.PSObject.Properties.Name -contains $name) {
-    $resolvedPath = Expand-PathVariables $actions.$name
-    Start-Process $resolvedPath
-} else {
-    Write-Host "Unknown option: $name"
-    Show-Options
+foreach ($name in $names) {
+    if ($actions.PSObject.Properties.Name -contains $name) {
+        $resolvedPath = Expand-PathVariables $actions.$name
+        Start-Process $resolvedPath
+    } else {
+        Write-Host "Unknown option: $name"
+        Show-Options
+    }
 }
