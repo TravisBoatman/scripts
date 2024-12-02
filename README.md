@@ -11,8 +11,8 @@ For the most part anyone should be able to use them and use my custom theme and 
 * gsudoModule - sudo for Windows.
 
 # Install
-Install PowerShell 7, gsudo, Oh-My-Posh, and a Hack Nerd Font.
-Run `./setup/install.ps1` follow prompts.
+- Install PowerShell 7 and a Hack Nerd Font.
+- Run `./setup/install.ps1` follow prompts.
 
 # Commands
 * dto - Creates a private and public DTO event for you and your team.

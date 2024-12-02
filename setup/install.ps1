@@ -1,4 +1,4 @@
-Write-Host "Please ensure PowerShell 7, gsudo, Oh-My-Posh, and a Hack Nerd Font is installed before running this script."
+Write-Host "Please ensure PowerShell 7 and a Hack Nerd Font is installed before running this script."
 $choice = Read-Host "To continue press 'y' or 'n' to cancel."
 
 if ($choice -ieq 'y') {

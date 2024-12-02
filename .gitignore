@@ -1,3 +1,4 @@
 locations.json
 actions.json
 additional-scripts/*.ps1
+*.json.bak
