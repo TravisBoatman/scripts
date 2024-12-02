@@ -1,1 +1,0 @@
-Start-Process "cleanmgr.exe" -ArgumentList "/sagerun:1"

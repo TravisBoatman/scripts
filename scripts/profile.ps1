@@ -11,11 +11,11 @@ else {
 
 Import-Module Terminal-Icons
 Import-Module PSReadLine
-Import-Module gsudoModule
-Import-Module PSScriptTools
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
+
+Set-Alias -Name sudo -Value gsudo
 
 $scriptDirectories = @($env:TB_SCRIPTS, $env:TB_ADDITIONAL_SCRIPTS)
 

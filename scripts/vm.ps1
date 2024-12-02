@@ -1,6 +1,6 @@
 param (
     [Parameter(Position=0, Mandatory=$true)]
-    [ValidateSet('Start', 'Stop', 'Revert', 'Restart', 'Status')]
+    [ValidateSet('Start', 'Stop', 'Revert', 'Restart', 'Status', 'Save')]
     [string]$Action,
 
     [Parameter(Position=1, Mandatory=$false)]
@@ -44,6 +44,15 @@ switch ($Action) {
         if ($vmState -ne 'Off') {
             Stop-VM -Name $vmName -Force
             Write-Output "VM '$vmName' is stopping."
+        } else {
+            Write-Output "VM '$vmName' is already stopped."
+        }
+    }
+    'save' {
+        $vmState = Get-VM -Name $vmName | Select-Object -ExpandProperty State
+        if ($vmState -ne 'Off') {
+            Save-VM -Name $vmName
+            Write-Output "VM '$vmName' is saving."
         } else {
             Write-Output "VM '$vmName' is already stopped."
         }
