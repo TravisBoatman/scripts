@@ -2,9 +2,9 @@ $themeOptions = @("nord", "amro", "none")
 $themeChoice = $null
 
 while ($null -eq $themeChoice) {
-    $themeChoice = Read-Host "Please choose a theme (nord, amro, or none)"
+    $themeChoice = Read-Host "Please choose a theme (nord, amro, or none)" -ForegroundColor Yellow
     if ($themeOptions -notcontains $themeChoice) {
-        Write-Host "Invalid choice. Please choose either 'nord', 'amro', or 'none'."
+        Write-Host "Invalid choice. Please choose either 'nord', 'amro', or 'none'." -ForegroundColor Red
         $themeChoice = $null
     }
 }
@@ -15,11 +15,7 @@ $themeValue = switch ($themeChoice) {
     "none" { $null }
 }
 
-if ($themeChoice -ne "none") {
-    $setupTerminal = Read-Host "Do you want to use the selected oh-my-posh theme ($themeChoice)? (yes/no)"
-}
-
-if ($themeChoice -ne "none" -or $setupTerminal -eq "no") {
+if ($themeChoice -eq "none") {
     $content = ". ""$env:TB_SCRIPTS\scripts\profile.ps1"""
 } else {
     $content = ". ""$env:TB_SCRIPTS\scripts\profile.ps1"" $themeValue"
@@ -42,11 +38,20 @@ function Add-FirstLine {
     Set-Content -Path $filePath -Value $updatedContent
 }
 
-$filePathPS7 = "$home\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-$filePathPSWin = "$home\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
-Add-FirstLine -filePath $filePathPS7 -newContent $content
-Add-FirstLine -filePath $filePathPSWin -newContent $content
+$docsPath = [environment]::GetFolderPath('MyDocuments')
+$filePaths = @("$docsPath\PowerShell\Microsoft.PowerShell_profile.ps1", 
+               "$docsPath\WindowsPowerShell\Microsoft.PowerShell_profile.ps1")
 
-Write-Host "Setup completed. Restart any open consoles to apply the changes."
-Write-Host "You can copy my terminal settings from $env:TB_SCRIPTS\configs\term-settings.json if you want to use them."
-Write-Host "Configure your 'go' and 'open' commands by creating 'locations.json' and 'actions.json' files in $env:TB_SCRIPTS\paths. Actions allow file paths and CLI commands with params. Locations allow directory paths only."
+foreach ($filePath in $filePaths) {
+    if (!(Test-Path $filePath)) {
+        New-Item -ItemType Directory -Path (Split-Path $filePath) -Force | Out-Null
+        New-Item -ItemType File -Path $filePath -Force | Out-Null
+        Write-Host "Created: $filePath"
+    }
+
+    Add-FirstLine -filePath $filePath -newContent $content
+}
+
+Write-Host "Setup completed. Restart any open consoles to apply the changes. Be sure to set the font in your terminal settings to the Nerd Font you downloaded.`n" -ForegroundColor Yellow
+Write-Host "You can copy my terminal settings from $env:TB_SCRIPTS\configs\term-settings.json if you want to use them.`n" -ForegroundColor Yellow
+Write-Host "Configure your 'go' and 'open' commands by creating 'locations.json' and 'actions.json' files in $env:TB_SCRIPTS\paths. Actions allow file paths and CLI commands with params. Locations allow directory paths only.`n" -ForegroundColor Yellow
