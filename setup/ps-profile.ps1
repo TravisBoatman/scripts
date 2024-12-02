@@ -20,14 +20,33 @@ if ($themeChoice -ne "none") {
 }
 
 if ($themeChoice -ne "none" -or $setupTerminal -eq "no") {
-    $content = "& ""$env:TB_SCRIPTS\profile.ps1"""
+    $content = ". ""$env:TB_SCRIPTS\scripts\profile.ps1"""
 } else {
-    $content = "& ""$env:TB_SCRIPTS\profile.ps1"" $themeValue"
+    $content = ". ""$env:TB_SCRIPTS\scripts\profile.ps1"" $themeValue"
 }
 
-$filePath = "$home\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-Set-Content -Path $filePath -Value $content
+function Add-FirstLine {
+    param (
+        [string]$filePath,
+        [string]$newContent
+    )
 
-Write-Host "PowerShell profile setup complete. Restart terminal to apply changes. Create custom paths and actions under $env:TB_PATHS for 'go' and 'open' commands."
-Write-Host "If you want to set your own OhMyPosh theme edit $Profile and add the name of the theme as a parameter. The file should exist under $env:TB_CONFIGS."
-Write-Host "If you already selected a theme, run this script again to change it."
+    if (Test-Path $filePath) {
+        $existingContent = Get-Content -Path $filePath
+    } else {
+        $existingContent = @()
+    }
+
+    $updatedContent = @($newContent) + $existingContent
+
+    Set-Content -Path $filePath -Value $updatedContent
+}
+
+$filePathPS7 = "$home\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+$filePathPSWin = "$home\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+Add-FirstLine -filePath $filePathPS7 -newContent $content
+Add-FirstLine -filePath $filePathPSWin -newContent $content
+
+Write-Host "Setup completed. Restart any open consoles to apply the changes."
+Write-Host "You can copy my terminal settings from $env:TB_SCRIPTS\configs\term-settings.json if you want to use them."
+Write-Host "Configure your 'go' and 'open' commands by creating 'locations.json' and 'actions.json' files in $env:TB_SCRIPTS\paths. Actions allow file paths and CLI commands with params. Locations allow directory paths only."

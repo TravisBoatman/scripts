@@ -13,7 +13,7 @@ function Expand-PathVariables($path) {
 }
 
 try {
-    $jsonPath = [System.Environment]::ExpandEnvironmentVariables("$env:TB_PATHS\locations.json")
+    $jsonPath = [System.Environment]::ExpandEnvironmentVariables("$env:TB_SCRIPTS\paths\locations.json")
     $locations = Get-Content -Path $jsonPath -ErrorAction Stop | ConvertFrom-Json
 } catch {
     Write-Host "Error loading location data from JSON file. Please check the file path and format."

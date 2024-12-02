@@ -3,7 +3,7 @@ param (
 )
 
 if ($theme -ne $null) {
-    oh-my-posh init pwsh --config "$env:TB_CONFIGS\$theme" | Invoke-Expression
+    oh-my-posh init pwsh --config "$env:TB_SCRIPTS\configs\$theme" | Invoke-Expression
 }
 else {
     oh-my-posh init pwsh | Invoke-Expression
@@ -17,7 +17,7 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 
 Set-Alias -Name sudo -Value gsudo
 
-$scriptDirectories = @($env:TB_SCRIPTS, $env:TB_ADDITIONAL_SCRIPTS)
+$scriptDirectories = @("$env:TB_SCRIPTS\scripts", "$env:TB_SCRIPTS\additional-scripts")
 
 foreach ($scriptDirectory in $scriptDirectories) {
     $scriptFiles = Get-ChildItem -Path $scriptDirectory -Filter *.ps1 -ErrorAction SilentlyContinue

@@ -1,75 +1,21 @@
-function Set-EnvVariable([string]$name, [string]$default) {
-    $path = Read-Host "Enter path for $name or press Enter to use default ($default)"
-    if (-not $path) {
-        $path = $default
-    }
+Write-Host "Please ensure PowerShell 7, gsudo, Oh-My-Posh, and a Hack Nerd Font is installed before running this script."
+$choice = Read-Host "To continue press 'y' or 'n' to cancel."
 
-    if ($name -eq "TB_SCRIPTS" -or $name -eq "TB_ADDITIONAL_SCRIPTS") {
-        $currentPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
-        $newPath = "$currentPath;$path"
-
-        [System.Environment]::SetEnvironmentVariable("PATH", $newPath, [System.EnvironmentVariableTarget]::Machine)
-    } else {
-        [System.Environment]::SetEnvironmentVariable($name, $path, [System.EnvironmentVariableTarget]::Machine)
-    }
+if ($choice -ieq 'y') {
+    Write-Host "Continuing with the script..."
+} elseif ($choice -ieq 'n') {
+    Write-Host "Script canceled by user."
+    exit
+} else {
+    Write-Host "Invalid input. Please run the script again and choose 'y' or 'n'."
+    exit
 }
 
-Install-Module Terminal-Icons
-Install-Module PSReadLine
-Install-Module gsudoModule
-Install-Module PSScriptTools
+Install-Module Terminal-Icons -Force
+Install-Module PSReadLine -Force
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
+Set-ExecutionPolicy RemoteSigned -scope Process; [Net.ServicePointManager]::SecurityProtocol = 'Tls12'; Invoke-WebRequest -useb https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | Invoke-Expression
 
-$currentDirectory = Get-Location
-Set-EnvVariable -name "TB_SCRIPTS" -default "$currentDirectory\scripts"
-Set-EnvVariable -name "TB_CONFIGS" -default "$currentDirectory\configs"
-Set-EnvVariable -name "TB_PATHS" -default "$currentDirectory\paths"
-Set-EnvVariable -name "TB_ADDITIONAL_SCRIPTS" -default "$currentDirectory\additional-scripts"
+Set-EnvVariable -name "TB_SCRIPTS" -default "$PSScriptRoot\.."
 
-$setupTerminal = Read-Host "Do you want to use custom terminal settings (Quake Mode, Hack Font, Termnial Appearance? (yes/no)"
-if ($setupTerminal -eq "yes") {
-    
-    # Set Windows Terminal settings
-    $content = Get-Content -Path "..\configs\term-settings.json"
-    $filePath = "$home\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
-    Set-Content -Path $filePath -Value $content
-
-    # Create shortcut for Windows Terminal Quake mode
-    $shortcutPath = "$home\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\WT Quake.lnk"
-    $targetPath = "$home\AppData\Local\Microsoft\WindowsApps\wt.exe"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $Shortcut = $WshShell.CreateShortcut($shortcutPath)
-    $Shortcut.TargetPath = $targetPath
-    $Shortcut.Arguments = "-w _quake"
-    $Shortcut.Save()
-
-    Write-Host "Terminal settings and Quake mode setup complete."
-
-    # Add HACK font
-    $url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"
-    $zipFile = "C:\Temp\Hack.zip"
-    $extractPath = "C:\Temp\Hack"
-    
-    if (!(Test-Path "C:\Temp")) {
-        New-Item -ItemType Directory -Force -Path "C:\Temp"
-    }
-
-    Invoke-WebRequest -Uri $url -OutFile $zipFile
-    Expand-Archive -Path $zipFile -DestinationPath $extractPath
-
-    Get-ChildItem -Path "$extractPath\*.ttf" -Recurse | ForEach-Object {
-        $font = $_.FullName
-        $filePath = $env:windir + "\Fonts\" + [System.IO.Path]::GetFileName($font)
-        Copy-Item $font -Destination $filePath
-        $fonts = New-Object -ComObject Shell.Application
-        $folder = $fonts.NameSpace($env:windir + "\Fonts")
-        $fontFile = $folder.ParseName([System.IO.Path]::GetFileName($filePath))
-        $fontFile.InvokeVerb("Install")
-    }
-
-    Remove-Item -Path $extractPath -Recurse -Force
-    Remove-Item -Path $zipFile -Force
-    Write-Host "Fonts installed and cleanup complete."
-}
-
-Write-Host "Setup complete. Restart terminal to apply changes. Then run ps-profile.ps1 to setup PowerShell profile."
+Write-Host "Install completed. Close any open consoles then run ps-profile.ps1 to complete setup."
