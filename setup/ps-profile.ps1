@@ -4,8 +4,8 @@ $themeChoice = $null
 while ($null -eq $themeChoice) {
     $themeChoice = Read-Host "Please choose a theme (nord, amro, or none)"
     if ($themeOptions -notcontains $themeChoice) {
-        Write-Host "Invalid choice. Re-run this script and choose a valid theme."
-        exit
+        Write-Host "Invalid choice. Please choose either 'nord', 'amro', or 'none'."
+        $themeChoice = $null
     }
 }
 

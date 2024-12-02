@@ -1,4 +1,10 @@
-Write-Host "Please ensure PowerShell 7 and a Hack Nerd Font is installed before running this script."
+if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+{
+    Write-Warning "Please run this script as an Administrator!"
+    exit
+}
+
+Write-Host "Please ensure you are running this script under PowerShell 7 and a Hack Nerd Font is installed before continuing."
 $choice = Read-Host "To continue press 'y' or 'n' to cancel."
 
 if ($choice -ieq 'y') {
@@ -11,11 +17,19 @@ if ($choice -ieq 'y') {
     exit
 }
 
+Write-Host "Installing required modules for PowerShell 7..."
 Install-Module Terminal-Icons -Force
 Install-Module PSReadLine -Force
+
+Write-Host "Installing required modules for Windows PowerShell..."
+Start-Process powershell.exe -ArgumentList "-Command Install-Module -Name Terminal-Icons -Force" -Verb RunAs
+Start-Process powershell.exe -ArgumentList "-Command Install-Module -Name PSReadLine -Force" -Verb RunAs
+
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
 Set-ExecutionPolicy RemoteSigned -scope Process; [Net.ServicePointManager]::SecurityProtocol = 'Tls12'; Invoke-WebRequest -useb https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | Invoke-Expression
 
-Set-EnvVariable -name "TB_SCRIPTS" -default "$PSScriptRoot\.."
+$CurrentScriptPath = $PSScriptRoot
+$ParentDirectory = (Get-Item -Path $CurrentScriptPath).Parent.FullName
+[Environment]::SetEnvironmentVariable("TB_SCRIPTS", "$ParentDirectory", "Machine")
 
 Write-Host "Install completed. Close any open consoles then run ps-profile.ps1 to complete setup."
